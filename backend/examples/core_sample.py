@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Sample application demonstrating the Happy Path core infrastructure usage.
+Happy Path Core Infrastructure Usage Example.
 
-This script shows how to use all components of the core module:
+This example demonstrates how to use all components of the core module:
 - Configuration management
 - Database operations
 - Security features
@@ -12,7 +12,9 @@ This script shows how to use all components of the core module:
 - Monitoring & health checks
 - Structured logging
 
-Run this script to see the core infrastructure in action.
+Run this example to see the core infrastructure in action:
+    cd backend/examples
+    python core_sample.py
 """
 
 import os
@@ -22,7 +24,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # Add the backend directory to Python path
-backend_dir = Path(__file__).parent.parent.parent
+backend_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(backend_dir))
 
 # Import all core components
