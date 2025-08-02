@@ -353,6 +353,110 @@ INSERT INTO journal_prompts (
      ARRAY['anxiety', 'insecurity'], ARRAY['peer_pressure', 'social_situations'], 'teen', ARRAY['social_anxiety', 'adolescent_issues'], true, 'en');
 
 -- =============================================================================
+-- SUBSCRIPTION PLANS
+-- =============================================================================
+
+INSERT INTO subscription_plans (
+    plan_name, plan_type, description, 
+    monthly_price, quarterly_price, semi_annual_price, annual_price,
+    trial_days, trial_price,
+    max_journal_entries, max_mood_entries_per_day, max_assessment_frequency_days,
+    provider_coordination_included, premium_analytics_included, priority_support_included, ai_insights_included,
+    is_active, is_visible, sort_order
+) VALUES
+    -- Free Trial Plan
+    ('Free Trial', 'trial', '7-day free trial with basic features to explore the platform', 
+     0.00, NULL, NULL, NULL,
+     7, 0.00,
+     10, 3, 7,
+     false, false, false, false,
+     true, true, 1),
+    
+    -- Basic Plan
+    ('Basic Wellness', 'basic', 'Essential wellness tracking for personal mental health management',
+     9.99, 27.99, 54.99, 99.99,
+     7, 0.00,
+     NULL, NULL, 1, -- unlimited journal entries, mood entries, daily assessments
+     false, false, false, true,
+     true, true, 2),
+    
+    -- Premium Plan  
+    ('Premium Care', 'premium', 'Advanced features with provider coordination and premium analytics',
+     19.99, 54.99, 107.99, 199.99,
+     14, 0.00,
+     NULL, NULL, 1,
+     true, true, true, true,
+     true, true, 3),
+    
+    -- Professional Plan
+    ('Professional Plus', 'professional', 'Comprehensive platform for individuals working with healthcare providers',
+     39.99, 107.99, 215.99, 399.99,
+     14, 0.00,
+     NULL, NULL, 1,
+     true, true, true, true,
+     true, true, 4),
+    
+    -- Enterprise Plan (for organizations)
+    ('Enterprise', 'enterprise', 'Full-featured platform for healthcare organizations and large teams',
+     99.99, 269.99, 539.99, 999.99,
+     30, 0.00,
+     NULL, NULL, 1,
+     true, true, true, true,
+     true, false, 5); -- Not visible to individual users
+
+-- =============================================================================
+-- SUBSCRIPTION COUPONS
+-- =============================================================================
+
+INSERT INTO subscription_coupons (
+    code, name, description,
+    discount_type, discount_value, currency,
+    max_redemptions, max_redemptions_per_user,
+    valid_from, valid_until,
+    minimum_amount, first_time_customers_only,
+    is_active
+) VALUES
+    -- Welcome discount
+    ('WELCOME20', 'Welcome Discount', 'Get 20% off your first month',
+     'percentage', 20.00, 'USD',
+     1000, 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '6 months',
+     NULL, true,
+     true),
+    
+    -- Annual plan discount
+    ('ANNUAL30', 'Annual Plan Discount', 'Save 30% when you choose annual billing',
+     'percentage', 30.00, 'USD',
+     NULL, 1, -- unlimited redemptions
+     CURRENT_TIMESTAMP, NULL, -- no expiry
+     99.99, false, -- minimum $99.99 purchase (annual plans)
+     true),
+    
+    -- Student discount
+    ('STUDENT50', 'Student Discount', 'Special 50% discount for verified students',
+     'percentage', 50.00, 'USD',
+     500, 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '1 year',
+     NULL, false,
+     true),
+    
+    -- Healthcare worker discount
+    ('HEALTHCARE25', 'Healthcare Worker Discount', 'Thank you discount for healthcare professionals',
+     'percentage', 25.00, 'USD',
+     1000, 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '1 year',
+     NULL, false,
+     true),
+    
+    -- Extended trial
+    ('TRIAL30', 'Extended Trial', 'Get 30 days free trial instead of 7',
+     'free_trial', 23.00, 'USD', -- 23 extra days
+     100, 1,
+     CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '3 months',
+     NULL, true,
+     true);
+
+-- =============================================================================
 -- SYSTEM HEALTH CHECK CONFIGURATIONS
 -- =============================================================================
 

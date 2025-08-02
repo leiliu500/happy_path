@@ -201,6 +201,160 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Function to calculate business days between dates
+CREATE OR REPLACE FUNCTION calculate_business_days(start_date DATE, end_date DATE)
+RETURNS INTEGER AS $$
+BEGIN
+    IF start_date IS NULL OR end_date IS NULL THEN
+        RETURN NULL;
+    END IF;
+    
+    RETURN (
+        SELECT COUNT(*)::INTEGER
+        FROM generate_series(start_date, end_date, '1 day'::interval) AS d
+        WHERE EXTRACT(DOW FROM d) BETWEEN 1 AND 5
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to validate appointment scheduling conflicts
+CREATE OR REPLACE FUNCTION check_appointment_conflict(
+    provider_id_param UUID,
+    appointment_date DATE,
+    start_time TIME,
+    end_time TIME,
+    exclude_appointment_id UUID DEFAULT NULL
+)
+RETURNS BOOLEAN AS $$
+DECLARE
+    conflict_count INTEGER;
+BEGIN
+    SELECT COUNT(*)
+    INTO conflict_count
+    FROM appointments
+    WHERE provider_id = provider_id_param
+      AND scheduled_date = appointment_date
+      AND appointment_status NOT IN ('cancelled_by_patient', 'cancelled_by_provider', 'no_show')
+      AND (appointment_id != exclude_appointment_id OR exclude_appointment_id IS NULL)
+      AND (
+          (scheduled_start_time <= start_time AND scheduled_end_time > start_time) OR
+          (scheduled_start_time < end_time AND scheduled_end_time >= end_time) OR
+          (scheduled_start_time >= start_time AND scheduled_end_time <= end_time)
+      );
+    
+    RETURN conflict_count > 0;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to calculate medication adherence percentage
+CREATE OR REPLACE FUNCTION calculate_medication_adherence(
+    user_id_param UUID,
+    medication_record_id_param UUID,
+    start_date DATE,
+    end_date DATE
+)
+RETURNS DECIMAL AS $$
+DECLARE
+    total_scheduled INTEGER;
+    total_taken INTEGER;
+    adherence_rate DECIMAL;
+BEGIN
+    SELECT 
+        COUNT(*) AS scheduled,
+        COUNT(*) FILTER (WHERE was_taken = TRUE) AS taken
+    INTO total_scheduled, total_taken
+    FROM medication_adherence
+    WHERE user_id = user_id_param
+      AND medication_record_id = medication_record_id_param
+      AND scheduled_date BETWEEN start_date AND end_date;
+    
+    IF total_scheduled = 0 THEN
+        RETURN NULL;
+    END IF;
+    
+    adherence_rate := (total_taken::DECIMAL / total_scheduled::DECIMAL) * 100;
+    RETURN ROUND(adherence_rate, 2);
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to generate secure session tokens
+CREATE OR REPLACE FUNCTION generate_session_token()
+RETURNS TEXT AS $$
+BEGIN
+    RETURN encode(gen_random_bytes(32), 'base64');
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to validate and normalize phone numbers
+CREATE OR REPLACE FUNCTION normalize_phone_number(phone_input TEXT)
+RETURNS TEXT AS $$
+DECLARE
+    cleaned_phone TEXT;
+BEGIN
+    IF phone_input IS NULL THEN
+        RETURN NULL;
+    END IF;
+    
+    -- Remove all non-digits
+    cleaned_phone := regexp_replace(phone_input, '[^0-9]', '', 'g');
+    
+    -- Handle US numbers with country code
+    IF length(cleaned_phone) = 11 AND left(cleaned_phone, 1) = '1' THEN
+        cleaned_phone := right(cleaned_phone, 10);
+    END IF;
+    
+    -- Validate length (US numbers)
+    IF length(cleaned_phone) != 10 THEN
+        RETURN NULL;
+    END IF;
+    
+    -- Format as (XXX) XXX-XXXX
+    RETURN '(' || left(cleaned_phone, 3) || ') ' || 
+           substring(cleaned_phone, 4, 3) || '-' || 
+           right(cleaned_phone, 4);
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to calculate financial year-to-date totals
+CREATE OR REPLACE FUNCTION calculate_ytd_financial_metrics(
+    metric_type TEXT,
+    as_of_date DATE DEFAULT CURRENT_DATE
+)
+RETURNS DECIMAL AS $$
+DECLARE
+    year_start DATE;
+    total_amount DECIMAL := 0;
+BEGIN
+    year_start := DATE_TRUNC('year', as_of_date)::DATE;
+    
+    CASE metric_type
+        WHEN 'revenue' THEN
+            SELECT COALESCE(SUM(net_amount), 0)
+            INTO total_amount
+            FROM payment_transactions
+            WHERE payment_status = 'completed'
+              AND transaction_date BETWEEN year_start AND as_of_date;
+        
+        WHEN 'charges' THEN
+            SELECT COALESCE(SUM(charge_amount), 0)
+            INTO total_amount
+            FROM billing_encounters
+            WHERE service_date BETWEEN year_start AND as_of_date;
+        
+        WHEN 'collections' THEN
+            SELECT COALESCE(SUM(amount_paid), 0)
+            INTO total_amount
+            FROM patient_billing
+            WHERE billing_date BETWEEN year_start AND as_of_date;
+        
+        ELSE
+            RETURN NULL;
+    END CASE;
+    
+    RETURN total_amount;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Create custom domain types for common patterns
 
 -- Domain for mood scales (1-10)
@@ -218,6 +372,22 @@ CREATE DOMAIN normalized_score_domain AS DECIMAL(5,4)
 -- Domain for positive integers
 CREATE DOMAIN positive_integer_domain AS INTEGER
     CHECK (VALUE > 0);
+
+-- Domain for email addresses
+CREATE DOMAIN email_domain AS TEXT
+    CHECK (VALUE ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
+
+-- Domain for phone numbers
+CREATE DOMAIN phone_domain AS TEXT
+    CHECK (VALUE ~* '^[\+]?[1-9][\d]{0,15}$' OR VALUE IS NULL);
+
+-- Domain for currency amounts
+CREATE DOMAIN currency_domain AS DECIMAL(10,2)
+    CHECK (VALUE >= 0);
+
+-- Domain for rating scores (1-5)
+CREATE DOMAIN rating_scale_domain AS DECIMAL(3,2)
+    CHECK (VALUE >= 1 AND VALUE <= 5);
 
 -- Create indexes for common UUID lookups (will be created after tables)
 -- These will be referenced in individual schema files

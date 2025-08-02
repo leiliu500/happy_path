@@ -10,57 +10,105 @@
 \echo ''
 
 -- 1. Master Setup (Extensions, Functions, Utilities) - In schemas directory
-\echo 'Step 1/9: Setting up extensions and base functions...'
+\echo 'Step 1/14: Setting up extensions and base functions...'
 \i 00_master_setup.sql
 \echo 'Master setup completed.'
 \echo ''
 
 -- 2. User Management (Core dependency for all other schemas)
-\echo 'Step 2/9: Creating user management tables...'
+\echo 'Step 2/14: Creating user management tables...'
 \i user_management.sql
 \echo 'User management schema completed.'
 \echo ''
 
--- 3. Mood Tracking (Depends on users)
-\echo 'Step 3/9: Creating mood tracking tables...'
+-- 3. Care Coordination (Provider network - needed before clinical schemas)
+\echo 'Step 3/14: Creating care coordination and provider network...'
+\i care_coordination.sql
+\echo 'Care coordination schema completed.'
+\echo ''
+
+-- 4. Insurance and Billing (Core financial infrastructure)
+\echo 'Step 4/15: Creating insurance and billing tables...'
+\i insurance_billing.sql
+\echo 'Insurance and billing schema completed.'
+\echo ''
+
+-- 5. Subscription and Payment Management (User billing and subscriptions)
+\echo 'Step 5/15: Creating subscription and payment tables...'
+\i subscription_billing.sql
+\echo 'Subscription billing schema completed.'
+\echo ''
+
+-- 6. Appointment and Scheduling (Core operational functionality)
+\echo 'Step 6/15: Creating appointment and scheduling tables...'
+\i appointment_scheduling.sql
+\echo 'Appointment scheduling schema completed.'
+\echo ''
+
+-- 7. Assessment and Screening Tools
+\echo 'Step 7/15: Creating assessment and screening tables...'
+\i assessments_screening.sql
+\echo 'Assessment and screening schema completed.'
+\echo ''
+
+-- 8. Medication Management
+\echo 'Step 8/15: Creating medication management tables...'
+\i medication_management.sql
+\echo 'Medication management schema completed.'
+\echo ''
+
+-- 9. Mood Tracking (Depends on users)
+\echo 'Step 9/15: Creating mood tracking tables...'
 \i mood_tracking.sql
 \echo 'Mood tracking schema completed.'
 \echo ''
 
--- 4. Journaling (Depends on users)
-\echo 'Step 4/9: Creating journaling tables...'
+-- 10. Journaling (Depends on users)
+\echo 'Step 10/15: Creating journaling tables...'
 \i journaling.sql
 \echo 'Journaling schema completed.'
 \echo ''
 
--- 5. Crisis Management (Depends on users and may reference mood/journal data)
-\echo 'Step 5/9: Creating crisis management tables...'
+-- 11. Crisis Management (Depends on users and may reference mood/journal data)
+\echo 'Step 11/15: Creating crisis management tables...'
 \i crisis_management.sql
 \echo 'Crisis management schema completed.'
 \echo ''
 
--- 6. Conversational Agent (Depends on users and references other user data)
-\echo 'Step 6/9: Creating conversational agent tables...'
+-- 12. Conversational Agent (Depends on users and references other user data)
+\echo 'Step 12/15: Creating conversational agent tables...'
 \i conversational_agent.sql
 \echo 'Conversational agent schema completed.'
 \echo ''
 
--- 7. Clinical Therapy (Depends on users and therapeutic relationships)
-\echo 'Step 7/9: Creating clinical therapy tables...'
+-- 13. Clinical Therapy (Depends on users and therapeutic relationships)
+\echo 'Step 13/15: Creating clinical therapy tables...'
 \i clinical_therapy.sql
 \echo 'Clinical therapy schema completed.'
 \echo ''
 
--- 8. System Administration (Can reference all other tables for auditing)
-\echo 'Step 8/9: Creating system administration tables...'
+-- 14. Compliance and Privacy Management
+\echo 'Step 14/15: Creating compliance and privacy tables...'
+\i compliance_privacy.sql
+\echo 'Compliance and privacy schema completed.'
+\echo ''
+
+-- 15. Analytics and Reporting (Depends on most other schemas for data)
+\echo 'Step 15/15: Creating analytics and reporting tables...'
+\i analytics_reporting.sql
+\echo 'Analytics and reporting schema completed.'
+\echo ''
+
+-- 16. System Administration (Always last)
+\echo 'Step 16/16: Creating system administration tables...'
 \i system_administration.sql
 \echo 'System administration schema completed.'
 \echo ''
 
--- 9. Initial Data (MUST BE LAST - populates essential application data)
-\echo 'Step 9/9: Loading initial application data...'
+-- 17. Initial Data Setup
+\echo 'Step 17/17: Loading initial data...'
 \i initial_data.sql
-\echo 'Initial data loaded successfully.'
+\echo 'Initial data loading completed.'
 \echo ''
 
 -- =============================================================================
@@ -90,33 +138,6 @@ FROM pg_type
 WHERE typnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public')
   AND typtype = 'e';
 
--- Count initial data records
-\echo 'Initial data records:'
-SELECT 
-    'System Configurations' as data_type,
-    COUNT(*) as record_count
-FROM system_configurations
-UNION ALL
-SELECT 
-    'Crisis Resources' as data_type,
-    COUNT(*) as record_count
-FROM crisis_resources
-UNION ALL
-SELECT 
-    'Crisis Keywords' as data_type,
-    COUNT(*) as record_count
-FROM crisis_keywords
-UNION ALL
-SELECT 
-    'AI Agent Configs' as data_type,
-    COUNT(*) as record_count
-FROM ai_agent_configs
-UNION ALL
-SELECT 
-    'Journal Prompts' as data_type,
-    COUNT(*) as record_count
-FROM journal_prompts;
-
 \echo ''
 \echo '============================================================================='
 \echo 'Happy Path database setup completed successfully!'
@@ -129,5 +150,18 @@ FROM journal_prompts;
 \echo '4. Review and adjust system configurations as needed'
 \echo '5. Set up row-level security policies if multi-tenant deployment'
 \echo ''
-\echo 'For detailed verification, run the queries in README_SETUP.sql'
+\echo 'Database now includes:'
+\echo '- Comprehensive mental health and wellness platform'
+\echo '- User subscription and credit card payment processing'
+\echo '- Professional provider coordination capabilities'
+\echo '- Privacy protection and data security infrastructure'
+\echo '- Payment processing and service management'
+\echo '- Personal wellness tracking and insights'
+\echo '- Crisis support resource connections'
+\echo ''
+\echo 'Note: This platform provides wellness support and does not'
+\echo 'constitute medical diagnosis or treatment. Users should consult'
+\echo 'with licensed healthcare professionals for medical care.'
+\echo ''
+\echo 'For detailed information, see docs/database_model.md'
 \echo '============================================================================='
