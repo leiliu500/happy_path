@@ -1,0 +1,43 @@
+# Happy Path Core Infrastructure Dependencies
+
+# Database
+psycopg2-binary==2.9.7
+asyncpg==0.28.0
+
+# Authentication & Security
+PyJWT==2.8.0
+bcrypt==4.0.1
+cryptography==41.0.3
+
+# Caching
+redis==5.0.0
+
+# Monitoring & System Info
+psutil==5.9.5
+
+# Async Support
+asyncio
+
+# Standard Library Extensions (usually included with Python)
+# dataclasses (Python 3.7+)
+# typing (Python 3.5+)
+# enum (Python 3.4+)
+# json (built-in)
+# hashlib (built-in)
+# secrets (Python 3.6+)
+# threading (built-in)
+# logging (built-in)
+# pathlib (Python 3.4+)
+# base64 (built-in)
+# re (built-in)
+# time (built-in)
+# uuid (built-in)
+# pickle (built-in)
+# collections (built-in)
+# contextlib (built-in)
+# functools (built-in)
+
+# Optional: for enhanced functionality
+# prometheus-client==0.17.1  # For Prometheus metrics
+# sentry-sdk==1.29.2         # For error tracking
+# structlog==23.1.0          # For structured logging
