@@ -1,0 +1,44 @@
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: happy_path_postgres
+    environment:
+      POSTGRES_DB: happy_path
+      POSTGRES_USER: happy_path_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-happy_path_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/var/lib/postgresql/backups
+      - ../../sql:/docker-entrypoint-initdb.d/sql_scripts
+    networks:
+      - happy_path_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U happy_path_user -d happy_path"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    command: >
+      postgres 
+      -c max_connections=200
+      -c shared_buffers=512MB
+      -c effective_cache_size=1GB
+      -c maintenance_work_mem=64MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  happy_path_network:
+    driver: bridge

@@ -1,8 +1,8 @@
 # Happy Path Core Infrastructure Dependencies
 
 # Database
-psycopg2-binary==2.9.7
-asyncpg==0.28.0
+psycopg2-binary>=2.9.9
+asyncpg>=0.29.0
 
 # Authentication & Security
 PyJWT==2.8.0

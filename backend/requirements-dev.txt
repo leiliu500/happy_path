@@ -1,0 +1,15 @@
+# Development Environment Requirements
+# This file contains minimal dependencies for the development environment setup
+
+# Database connectivity - Use newer version with better macOS support
+psycopg2-binary>=2.9.9
+
+# Async database support
+asyncpg>=0.29.0
+
+# For the development script itself
+# (These are typically available in standard Python installations)
+# argparse - built-in
+# subprocess - built-in
+# json - built-in
+# pathlib - built-in
