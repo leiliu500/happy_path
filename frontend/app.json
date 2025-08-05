@@ -1,0 +1,64 @@
+{
+  "expo": {
+    "name": "Happy Path Wellness",
+    "slug": "happy-path-wellness",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F9FAFB"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.happypath.wellness",
+      "infoPlist": {
+        "NSHealthShareUsageDescription": "This app integrates with HealthKit to track wellness metrics",
+        "NSHealthUpdateUsageDescription": "This app writes wellness data to HealthKit"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#F9FAFB"
+      },
+      "package": "com.happypath.wellness",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.NOTIFICATIONS"
+      ]
+    },
+    "web": {
+      "bundler": "webpack",
+      "favicon": "./assets/favicon.png",
+      "name": "Happy Path Wellness Platform",
+      "shortName": "Happy Path",
+      "lang": "en",
+      "scope": "/",
+      "themeColor": "#2563EB",
+      "backgroundColor": "#F9FAFB",
+      "display": "standalone",
+      "orientation": "any",
+      "crossorigin": "use-credentials"
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#2563EB"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

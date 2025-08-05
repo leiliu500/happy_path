@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>HappyPath - Your Mental Wellness Journey</title>
+  <meta name="description" content="A professional mental health wellness platform that provides personalized tools, supportive community, and evidence-based practices for your healing journey." />
+  <meta name="keywords" content="mental health, wellness, mindfulness, therapy, meditation, self-care, healing, anxiety, depression, stress relief" />
+  <meta name="author" content="HappyPath Wellness" />
+  
+  <!-- Viewport and responsive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#2563EB" />
+  <meta name="color-scheme" content="light dark" />
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="HappyPath - Your Mental Wellness Journey" />
+  <meta property="og:description" content="Professional mental health wellness platform with personalized tools and supportive community." />
+  <meta property="og:site_name" content="HappyPath" />
+  <meta property="og:locale" content="en_US" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HappyPath - Mental Wellness Platform" />
+  <meta name="twitter:description" content="Your safe space for growth, healing, and mental wellness." />
+  
+  <!-- Apple specific -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="HappyPath" />
+  
+  <!-- Security -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+  
+  <!-- Favicon and Icons -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  
+  <!-- Google Fonts for Healing Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet" />
+  
+  <!-- Preload critical CSS -->
+  <link rel="preload" href="/src/styles/globals.css" as="style" />
+  
+  <style>
+    /* Critical CSS for immediate rendering */
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Loading screen with healing theme */
+    .loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 40px;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      animation: breathe 2s ease-in-out infinite;
+      box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
+    }
+
+    .loading-text {
+      color: #1f2937;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-family: 'Merriweather', serif;
+    }
+
+    .loading-subtitle {
+      color: #6b7280;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .loading-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #e2e8f0;
+      border-top: 3px solid #2563eb;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-top: 16px;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Hide loading screen when app loads */
+    .app-loaded .loading-container {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Focus styles for accessibility */
+    *:focus-visible {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
+    }
+
+    /* Smooth scrolling for all browsers */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      body {
+        color: #f8fafc;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      }
+      
+      .loading-container {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      }
+      
+      .loading-text {
+        color: #f8fafc;
+      }
+      
+      .loading-subtitle {
+        color: #cbd5e1;
+      }
+    }
+
+    /* Reduced motion for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      .loading-logo {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div id="loading" class="loading-container">
+    <div class="loading-logo">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
+        <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
+      </svg>
+    </div>
+    <div class="loading-text">HappyPath</div>
+    <div class="loading-subtitle">Your wellness journey begins here</div>
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Main App Container -->
+  <div id="root"></div>
+
+  <!-- Schema.org structured data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "HappyPath",
+    "description": "Professional mental health wellness platform with personalized tools and supportive community",
+    "url": "https://happypath.app",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Web, iOS, Android",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "HappyPath Wellness"
+    }
+  }
+  </script>
+
+  <!-- Hide loading screen when React app loads -->
+  <script>
+    // Remove loading screen once React app mounts
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        const loading = document.getElementById('loading');
+        if (loading) {
+          document.body.classList.add('app-loaded');
+          setTimeout(() => {
+            loading.remove();
+          }, 500);
+        }
+      }, 1000);
+    });
+
+    // Error handling for failed loads
+    window.addEventListener('error', function(e) {
+      console.error('App loading error:', e);
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.innerHTML = `
+          <div class="loading-logo">⚠️</div>
+          <div class="loading-text">Loading Error</div>
+          <div class="loading-subtitle">Please refresh the page</div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

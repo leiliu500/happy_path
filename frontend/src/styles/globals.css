@@ -1,0 +1,483 @@
+/* Global Styles for Mental Health Wellness Platform */
+/* Healing-focused design system with professional aesthetics */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap');
+
+/* CSS Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Healing Color Palette CSS Variables */
+:root {
+  /* Primary Healing Colors */
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  
+  /* Calming Secondary Colors */
+  --color-secondary: #0d9488;
+  --color-secondary-light: #14b8a6;
+  --color-secondary-dark: #0f766e;
+  --color-secondary-gradient: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  
+  /* Healing Accent Colors */
+  --color-calm: #8b5cf6;
+  --color-growth: #10b981;
+  --color-focus: #f59e0b;
+  --color-peace: #06b6d4;
+  --color-strength: #ef4444;
+  --color-wisdom: #8b5cf6;
+  
+  /* Semantic Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #06b6d4;
+  
+  /* Neutral Healing Palette */
+  --color-background: #ffffff;
+  --color-surface: #f8fafc;
+  --color-card: #ffffff;
+  --color-border: #e2e8f0;
+  --color-divider: #f1f5f9;
+  
+  /* Text Colors */
+  --color-text-primary: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-text-tertiary: #9ca3af;
+  --color-text-inverse: #ffffff;
+  
+  /* Shadow & Glow Effects */
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-large: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-healing: 0 4px 20px rgba(59, 130, 246, 0.15);
+  --glow-primary: 0 0 20px rgba(59, 130, 246, 0.3);
+  --glow-secondary: 0 0 20px rgba(20, 184, 166, 0.3);
+  
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 50%;
+  
+  /* Spacing Scale */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  
+  /* Typography Scale */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+  
+  /* Animation Timing */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.4s ease;
+  --transition-spring: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Dark Mode Variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #0f172a;
+    --color-surface: #1e293b;
+    --color-card: #334155;
+    --color-border: #475569;
+    --color-divider: #374151;
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #cbd5e1;
+    --color-text-tertiary: #94a3b8;
+  }
+}
+
+/* Typography Classes */
+.font-display {
+  font-family: 'Merriweather', serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+.font-body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+.text-4xl { font-size: var(--font-size-4xl); }
+.text-5xl { font-size: var(--font-size-5xl); }
+
+/* Healing-focused Component Styles */
+.healing-card {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.healing-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--color-primary-gradient);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.healing-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-healing);
+}
+
+.healing-card:hover::before {
+  opacity: 1;
+}
+
+.wellness-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-base);
+  cursor: pointer;
+  border: none;
+  font-size: var(--font-size-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.wellness-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow);
+}
+
+.wellness-button:hover::before {
+  left: 100%;
+}
+
+.wellness-button-primary {
+  background: var(--color-primary-gradient);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-medium);
+}
+
+.wellness-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-large);
+}
+
+.wellness-button-secondary {
+  background: var(--color-secondary-gradient);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-medium);
+}
+
+.wellness-button-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.wellness-button-outline:hover {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* Breathing Animation for Calm Elements */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+.breathing-element {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* Healing Gradient Backgrounds */
+.bg-healing-primary {
+  background: var(--color-primary-gradient);
+}
+
+.bg-healing-secondary {
+  background: var(--color-secondary-gradient);
+}
+
+.bg-healing-calm {
+  background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+}
+
+.bg-healing-growth {
+  background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+}
+
+.bg-healing-peace {
+  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+}
+
+/* Progress & Loading Animations */
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px var(--color-primary); }
+  50% { box-shadow: 0 0 20px var(--color-primary), 0 0 30px var(--color-primary); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Wellness Icon Styles */
+.wellness-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 24px;
+  transition: all var(--transition-base);
+}
+
+.wellness-icon:hover {
+  transform: scale(1.1);
+  box-shadow: var(--glow-primary);
+}
+
+.wellness-icon-large {
+  width: 64px;
+  height: 64px;
+  font-size: 32px;
+}
+
+/* Modal & Overlay Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+}
+
+.modal-content {
+  background: var(--color-background);
+  border-radius: var(--radius-xl);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-large);
+  position: relative;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-base);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  :root {
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+    --spacing-2xl: 32px;
+  }
+  
+  .healing-card {
+    padding: var(--spacing-md);
+  }
+  
+  .modal-overlay {
+    padding: var(--spacing-md);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .breathing-element {
+    animation: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: #000000;
+    --color-text-secondary: #000000;
+  }
+}
+
+/* Focus visible for accessibility */
+.wellness-button:focus-visible,
+.form-input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Loading States */
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--color-border);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Wellness-specific utility classes */
+.text-healing-primary { color: var(--color-primary); }
+.text-healing-secondary { color: var(--color-secondary); }
+.text-healing-calm { color: var(--color-calm); }
+.text-healing-growth { color: var(--color-growth); }
+.text-healing-peace { color: var(--color-peace); }
+
+.bg-healing-surface { background-color: var(--color-surface); }
+.bg-healing-card { background-color: var(--color-card); }
+
+.border-healing { border-color: var(--color-border); }
+.rounded-healing { border-radius: var(--radius-lg); }
+
+/* Mood Visualization */
+.mood-visualization {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+}
+
+.mood-visualization::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    rgba(59, 130, 246, 0.1) 0%, 
+    rgba(20, 184, 166, 0.1) 50%, 
+    rgba(139, 92, 246, 0.1) 100%);
+  animation: mood-shift 6s ease-in-out infinite alternate;
+}
+
+@keyframes mood-shift {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.7; }
+}
+
+/* Sanctuary feeling for the overall app */
+.app-container {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(20, 184, 166, 0.05) 0%, transparent 50%);
+}
